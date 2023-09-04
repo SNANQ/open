@@ -1,0 +1,14 @@
+{
+    "en": {
+        "AdafruitMLX90614.name": "GY-906",
+        "AdafruitMLX90614.description": "It is allowed to read the data of GY-906 infrared temperature sensor."
+    },
+    "zh-cn": {
+        "AdafruitMLX90614.name": "GY-906温度传感器",
+        "AdafruitMLX90614.description": "允许读取GY-906红外温度传感器的数据"
+    },
+    "zh-tw": {
+        "AdafruitMLX90614.name": "GY-906溫度感測器",
+        "AdafruitMLX90614.description": "允許讀取GY-906紅外溫度感測器的數據"
+    }
+}

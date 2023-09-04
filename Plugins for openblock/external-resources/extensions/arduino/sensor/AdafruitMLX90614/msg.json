@@ -1,0 +1,8 @@
+{
+    "ADAFRUITMLX90614_CATEGORY": "AdafruitMLX90614",
+    "AdafruitMLX90614_INIT": "init AdafruitMLX90614",
+    "AdafruitMLX90614_readObjectTempC": "AdafruitMLX90614 readObjectTempC",
+    "AdafruitMLX90614_readAmbientTempC": "AdafruitMLX90614 readAmbientTempC",
+    "AdafruitMLX90614_readObjectTempF": "AdafruitMLX90614 readObjectTempF",
+    "AdafruitMLX90614_readAmbientTempF": "AdafruitMLX90614 readAmbientTempF"
+}
