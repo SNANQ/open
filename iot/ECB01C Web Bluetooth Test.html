@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Web Bluetooth Test</title>
+  <meta name="description"
+    content="Written by shanghuo, referring to the suggestions provided by GitHub Copilot Chat and the MDN documentation, a web Bluetooth testing example is implemented, suitable for the ECB01C Bluetooth module">
+</head>
+
+<body>
+  <button onclick="connect()">Connect</button>
+  <button onclick="disconnect()">Disconnect</button>
+  <br>
+  <input type="text" id="input" placeholder="Input">
+  <button onclick="writeValue()">Write</button>
+  <br>
+  <textarea id="output" rows="10"></textarea>
+  <script>
+    let characteristic;
+
+    async function connect() {
+      try {
+        // 请求用户授权
+        const device = await navigator.bluetooth.requestDevice({
+          filters: [{ namePrefix: "BT" }],
+          optionalServices: [0xfff0],
+        });
+        console.log('Device found:', device.name);
+        // 连接设备
+        const gattServer = await device.gatt.connect();
+        console.log('Connected to GATT service:', gattServer.device.name);
+        // 获取蓝牙uuid相关内容
+        const service = await gattServer.getPrimaryService(0xfff0);
+        console.log('Found service:', service.uuid);
+        // 获取可以读写字符流的服务
+        characteristic = await service.getCharacteristic(0xfff1);
+        console.log('Found characteristic:', characteristic.uuid);
+        // 监听特征值变化
+        characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicValueChanged);
+        await characteristic.startNotifications();
+        console.log('Notifications started');
+      } catch (error) {
+        console.error('connect Error:', error);
+      }
+    }
+
+    function disconnect() {
+      try {
+        console.log(characteristic)
+        if (characteristic && characteristic.service && characteristic.service.device && characteristic.service.device.gatt && characteristic.service.device.gatt.disconnect) {
+          characteristic.service.device.gatt.disconnect();
+          console.log('Disconnected');
+        }
+        else throw 'Connection property does not exist';
+      } catch (error) {
+        console.error('write Error:', error);
+      }
+    }
+
+    function writeValue() {
+      try {
+        const input = document.getElementById('input').value;
+        if (characteristic && characteristic.properties && characteristic.properties.writeWithoutResponse) {
+          const buffer = new TextEncoder().encode(input);
+          characteristic.writeValueWithoutResponse(buffer)
+            .then(() => {
+              console.log('Value written:', input);
+            })
+        }
+        else throw 'not writable';
+      } catch (error) {
+        console.error('write Error:', error);
+      }
+    }
+
+    function handleCharacteristicValueChanged(event) {
+      try {
+        const value = event.target.value;
+        if (value && value.byteLength > 0) {
+          const str = new TextDecoder().decode(value);
+          console.log('Value changed:', str);
+          const output = document.getElementById('output');
+          output.value += str + "\n";
+        }
+      } catch (error) {
+        console.error('read Error:', error);
+      }
+    }
+  </script>
+</body>
+
+</html>
