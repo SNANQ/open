@@ -19,6 +19,7 @@
   <script>
     let characteristic;
 
+    //连接设备（必须用户点击触发，api需要https才可用）
     async function connect() {
       try {
         // 请求用户授权
@@ -45,6 +46,7 @@
       }
     }
 
+    //断开连接
     function disconnect() {
       try {
         console.log(characteristic)
@@ -58,6 +60,7 @@
       }
     }
 
+    //发送数据给串口
     function writeValue() {
       try {
         const input = document.getElementById('input').value;
@@ -74,6 +77,7 @@
       }
     }
 
+    //接收数据
     function handleCharacteristicValueChanged(event) {
       try {
         const value = event.target.value;
